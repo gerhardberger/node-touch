@@ -1,0 +1,20 @@
+{
+    "name": "node-touch",
+    "version": "0.0.1",
+    "description": "Extra touch events and hover behaviour for touch devices.",
+    "main": "index.js",
+    "dependencies": {
+        "node-inserted": "*"
+    },
+    "keywords": ["browserify", "touch", "event", "tap", "hover"],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/gerhardberger/node-touch.git"
+    },
+    "homepage": "https://github.com/gerhardberger/node-touch",
+    "author": {
+        "name": "Gerhard Berger",
+        "email": "93.morph@gmail.com",
+        "url": "https://twitter.com/gerhard_berger"
+    }
+}
