@@ -85,6 +85,93 @@ document.addEventListener('inserted', function (event) {
 		_tapStartTouch.pageX = undefined;
 		_tapStartTouch.pageY = undefined;
 	}, false);
+
+	// Swipe event
+
+	var swipeStarted = false;
+	var startTouch, prevTouch;
+	var startX = 0, startY = 0;
+	var direction = '';
+	var d = 0;
+	elem.addEventListener('touchstart', function (event) {
+		startX = event.changedTouches[0].clientX;
+		startY = event.changedTouches[0].clientY;
+		startTouch = event.changedTouches[0];
+	}, false);
+
+	elem.addEventListener('touchmove', function (event) {
+		var dx = event.changedTouches[0].clientX - startX;
+		var dy = event.changedTouches[0].clientY - startY;
+		var swipeEvent = new Event('swipe');
+
+		if (swipeStarted) {
+			swipeEvent.initEvent('swipemove', true, true);
+			swipeEvent.startTouch = startTouch;
+			swipeEvent.prevTouch = prevTouch;
+			swipeEvent.changedTouch = event.changedTouches[0];
+			prevTouch = event.changedTouches[0];
+
+			if (direction === 'RIGHT' || direction === 'LEFT') {
+				if (dx !== d) {
+					swipeEvent.direction = direction;
+					swipeEvent.delta = direction === 'RIGHT' ? dx : -dx;
+					d = dx;
+					elem.dispatchEvent(swipeEvent);
+				}
+			}
+			else {
+				if (dy !== d) {
+					swipeEvent.direction = direction;
+					swipeEvent.delta = direction === 'DOWN' ? dy : -dy;
+					d = dy;
+					elem.dispatchEvent(swipeEvent);
+				}
+			}			
+
+			return;
+		}
+
+		swipeStarted = true;
+		swipeEvent.initEvent('swipestart', true, true);
+		swipeEvent.startTouch = startTouch;
+		swipeEvent.changedTouch = event.changedTouches[0];
+		prevTouch = event.changedTouches[0];
+
+		if (Math.abs(dx) > 0) {
+			direction = dx > 0 ? 'RIGHT' : 'LEFT';
+			swipeEvent.direction = direction;
+			swipeEvent.delta = dx > 0 ? dx : -dx;
+			d = dx;
+			elem.dispatchEvent(swipeEvent);
+			return;
+		}
+		if (Math.abs(dy) > 0) {
+			direction = dy > 0 ? 'DOWN' : 'UP';
+			swipeEvent.direction = direction;
+			swipeEvent.delta = dy > 0 ? dy : -dy;
+			d = dy;
+			elem.dispatchEvent(swipeEvent);
+			return;
+		}
+	}, false);
+
+	elem.addEventListener('touchend', function (event) {
+		if (!swipeStarted) return;
+
+		var swipeEvent = new Event('swipeend');
+		swipeEvent.initEvent('swipeend', true, true);
+		swipeEvent.startTouch = startTouch;
+		swipeEvent.prevTouch = prevTouch;
+		swipeEvent.changedTouch = event.changedTouches[0];
+
+		swipeEvent.direction = direction;
+		swipeEvent.delta = Math.abs(d);
+		elem.dispatchEvent(swipeEvent);	
+
+		swipeStarted = false;
+		
+	}, false);
+
 }, false);
 
 };

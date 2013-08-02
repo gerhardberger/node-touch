@@ -7,6 +7,8 @@
 		
 		<style type="text/css">
 
+			* { -webkit-user-select: none; }
+
 			button {
 				position: relative;
 				display: table;
@@ -23,12 +25,12 @@
 		    -moz-box-sizing:border-box;
 		    box-sizing:border-box;
 
-				transition: all .3s ease;
-				-webkit-transition: all .3s ease;
-				-moz-transition: all .3s ease;
+				transition: border .3s ease;
+				-webkit-transition: border .3s ease;
+				-moz-transition: border .3s ease;
 			}
 			button.hover {
-				border-width: 3px;
+				border: solid 3px rgba(0,0,0,.4);
 			}
 			
 			button.tapped {
@@ -48,7 +50,6 @@
 		<script type="text/javascript" src="./main.js"></script>
 	</head>
 	<body>
-		
 		
 	</body>
 </html>

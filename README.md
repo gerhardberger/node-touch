@@ -44,5 +44,21 @@ div.addEventListener('touchleave', function (event) {
 ```
 The event fires when the finger left the element.
 
+### swipe
+You can add listeners to swipe events. There are three type of swipe events.
+``` js
+div.addEventListener('swipestart', function (event) {});
+
+div.addEventListener('swipemove', function (event) {});
+
+div.addEventListener('swipeend', function (event) {});
+```
+The `event` object's important properties are:
+- __direction__: `RIGHT`, `LEFT`, `UP`, `DOWN`
+- __delta__: how much pixel it moved from the starting touch (relative to the direction)
+- __startTouch__: the starting touch object
+- __prevTouch__: the previous touch object
+- __changedTouch__: the latest touch object
+
 ### window.isTouchDevice
 This module sets a global _Boolean_ that just tells you whether the user is on a touch device. It can be useful!
