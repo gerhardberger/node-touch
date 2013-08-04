@@ -19,7 +19,6 @@ module.exports = function () {
 document.addEventListener('inserted', function (event) {
 	if (event.animationName !== 'touchNodeInserted') return;
 	var elem = event.inserted;
-
 	var _tapStartTouch = { pageX: undefined, pageY: undefined };
 
 	if (!window.isTouchDevice) {
@@ -126,7 +125,7 @@ document.addEventListener('inserted', function (event) {
 					d = dy;
 					elem.dispatchEvent(swipeEvent);
 				}
-			}			
+			}
 
 			return;
 		}
@@ -137,22 +136,18 @@ document.addEventListener('inserted', function (event) {
 		swipeEvent.changedTouch = event.changedTouches[0];
 		prevTouch = event.changedTouches[0];
 
-		if (Math.abs(dx) > 0) {
+		if (Math.abs(dx) > Math.abs(dy)) {
 			direction = dx > 0 ? 'RIGHT' : 'LEFT';
-			swipeEvent.direction = direction;
 			swipeEvent.delta = dx > 0 ? dx : -dx;
 			d = dx;
-			elem.dispatchEvent(swipeEvent);
-			return;
 		}
-		if (Math.abs(dy) > 0) {
+		else {
 			direction = dy > 0 ? 'DOWN' : 'UP';
-			swipeEvent.direction = direction;
 			swipeEvent.delta = dy > 0 ? dy : -dy;
 			d = dy;
-			elem.dispatchEvent(swipeEvent);
-			return;
 		}
+		swipeEvent.direction = direction;
+		elem.dispatchEvent(swipeEvent);
 	}, false);
 
 	elem.addEventListener('touchend', function (event) {
@@ -166,7 +161,7 @@ document.addEventListener('inserted', function (event) {
 
 		swipeEvent.direction = direction;
 		swipeEvent.delta = Math.abs(d);
-		elem.dispatchEvent(swipeEvent);	
+		elem.dispatchEvent(swipeEvent);
 
 		swipeStarted = false;
 		
